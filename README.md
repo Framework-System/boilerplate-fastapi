@@ -56,6 +56,7 @@ app
 ├── clients  # Package for different external client services such as AwsS3, Redis, etc.
 ├── domains  # Package contains different domain classes.
     ├── models  # Package contains different models for ORMs.
+    └── database.py  # Contains ORMs configurations.
 ├── middlewares  # Package contains different middlewares.
     └── auth  # Package contains authentication middlewares.
 ├── repositories  # Package contains different classes to interact with models.
@@ -63,7 +64,7 @@ app
 ├── tests  # Package contains Tests for project.
 ├── __main__.py  # Startup script. Starts uvicorn.
 ├── conftest.py  # Fixtures for all tests.
-├── logging  # Logger configurations.
+├── logging.py  # Logger configurations.
 ├── settings.py  # Main configuration settings for project.
 ```
 
