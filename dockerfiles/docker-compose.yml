@@ -1,0 +1,56 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
+      target: prod
+    image: app:${APP_VERSION:-latest}
+    restart: always
+    env_file:
+    - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_DB_HOST: app-db
+      APP_DB_PORT: 5432
+      APP_DB_USER: app
+      APP_DB_PASS: app
+      APP_DB_BASE: app
+
+  db:
+    image: postgres:16
+    hostname: app-db
+    environment:
+      POSTGRES_PASSWORD: "app"
+      POSTGRES_USER: "app"
+      POSTGRES_DB: "app"
+    volumes:
+    - app-db-data:/var/lib/postgresql/data
+    ports:
+    - "5432:5432"
+    restart: always
+    healthcheck:
+      test: pg_isready -U app
+      interval: 2s
+      timeout: 3s
+      retries: 40
+
+  migrator:
+    image: app:${APP_VERSION:-latest}
+    restart: "no"
+    command: aerich upgrade
+    environment:
+      APP_DB_HOST: app-db
+      APP_DB_PORT: 5432
+      APP_DB_USER: app
+      APP_DB_PASS: app
+      APP_DB_BASE: app
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  app-db-data:
+    name: app-db-data
