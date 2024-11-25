@@ -5,8 +5,8 @@ from jose import JWTError, jwt
 from pydantic import ValidationError
 
 from app.domains.models.user_model import UserModel
-from app.repositories.user_repository import UserRepository
 from app.middlewares.auth.security import TokenDep, TokenPayload, verify_password
+from app.repositories.user_repository import UserRepository
 from app.settings import settings
 
 

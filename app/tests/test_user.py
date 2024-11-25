@@ -7,8 +7,8 @@ from pytest_fastapi_deps import FixtureDependencyOverrider
 from starlette import status
 
 from app.domains.models.user_model import UserModel
-from app.repositories.user_repository import UserRepository
 from app.middlewares.auth.deps import get_current_user
+from app.repositories.user_repository import UserRepository
 
 
 @pytest.mark.anyio
