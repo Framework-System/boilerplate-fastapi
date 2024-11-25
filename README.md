@@ -53,12 +53,12 @@ app
         └── router.py  # Main router.
     ├── application.py  # FastAPI application configuration.
     └── lifetime.py  # Contains actions to perform on startup and shutdown.
-├── clients  # Package for different external client services such as Aws S3 or redis etc.
+├── clients  # Package for different external client services such as AwsS3, Redis, etc.
 ├── domains  # Package contains different domain classes.
     ├── models  # Package contains different models for ORMs.
-    └── repositories  # Package contains different classes to interact with database.
 ├── middlewares  # Package contains different middlewares.
     └── auth  # Package contains authentication middlewares.
+├── repositories  # Package contains different classes to interact with models.
 ├── services  # Package contains the business logical classes.
 ├── tests  # Package contains Tests for project.
 ├── __main__.py  # Startup script. Starts uvicorn.
