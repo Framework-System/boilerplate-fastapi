@@ -39,7 +39,6 @@ class UserService:
         full_name: str,
         email: str,
         is_superuser: bool,
-        password: str,
     ) -> UserModel:
         """
         Update single user to session.
@@ -48,14 +47,12 @@ class UserService:
         :param full_name: full_name of a user.
         :param email: email of a user.
         :param is_superuser: is_superuser of a user.
-        :param password: password of a user.
         :return: user object.
         """
         return await self.repository.update_user(
             user_id=user_id,
             email=email,
             full_name=full_name,
-            password=password,
             is_superuser=is_superuser,
         )
 

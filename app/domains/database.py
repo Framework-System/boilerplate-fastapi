@@ -4,7 +4,6 @@ from app.settings import settings
 
 MODELS_MODULES: List[str] = [
     "app.domains.models.user_model",
-    "app.domains.models.project_model",
 ]  # noqa: WPS407
 
 TORTOISE_CONFIG = {  # noqa: WPS407

@@ -69,6 +69,7 @@ warn_return_any = false
 namespace_packages = true
 
 [tool.pytest.ini_options]
+addopts = "-vv --cov='app' --cov-fail-under=90"
 filterwarnings = [
     "error",
     "ignore::DeprecationWarning",

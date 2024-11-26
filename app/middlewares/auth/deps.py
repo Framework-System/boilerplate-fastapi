@@ -1,6 +1,7 @@
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException
+from fastapi import status as http_status
 from jose import JWTError, jwt
 from pydantic import ValidationError
 
@@ -27,7 +28,7 @@ async def get_current_user(token: TokenDep) -> UserModel:
         token_data = TokenPayload(**payload)
     except (JWTError, ValidationError):
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
+            status_code=http_status.HTTP_403_FORBIDDEN,
             detail="Could not validate credentials",
         )
 
@@ -35,10 +36,16 @@ async def get_current_user(token: TokenDep) -> UserModel:
         await UserRepository.get_user_by_id(token_data.sub) if token_data.sub else None
     )
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    if not user.is_active:  # type: ignore
-        raise HTTPException(status_code=400, detail="Inactive user")
-    return user  # type: ignore
+        raise HTTPException(
+            status_code=http_status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+    if not user.is_active:
+        raise HTTPException(
+            status_code=http_status.HTTP_400_BAD_REQUEST,
+            detail="Inactive user",
+        )
+    return user
 
 
 CurrentUser = Annotated[UserModel, Depends(get_current_user)]
@@ -54,7 +61,7 @@ def get_current_active_superuser(current_user: CurrentUser) -> UserModel:
     """
     if not current_user.is_superuser:
         raise HTTPException(
-            status_code=400,
+            status_code=http_status.HTTP_400_BAD_REQUEST,
             detail="The user doesn't have enough privileges",
         )
     return current_user
@@ -69,8 +76,6 @@ async def authenticate(email: str, password: str) -> UserModel | None:
     :return: User.
     """
     db_user = await UserRepository.get_user_by_email(email=email)
-    if not db_user:
+    if not verify_password(password, db_user.hashed_password):
         return None
-    if not verify_password(password, db_user.hashed_password):  # type: ignore
-        return None
-    return db_user  # type: ignore
+    return db_user

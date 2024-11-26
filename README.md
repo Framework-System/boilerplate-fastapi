@@ -142,5 +142,5 @@ docker-compose -f dockerfiles/docker-compose.yml -f dockerfiles/docker-compose.d
 If you want to run it in docker, simply run:
 
 ```bash
-docker-compose -f dockerfiles/docker-compose.yml -f dockerfiles/docker-compose.dev.yml --project-directory . run --build --rm api pytest -vv .
+docker-compose -f dockerfiles/docker-compose.yml -f dockerfiles/docker-compose.dev.yml --project-directory . run --build --rm api pytest -vv --cov .
 ```

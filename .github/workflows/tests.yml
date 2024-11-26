@@ -119,7 +119,7 @@ jobs:
     - name: Install dependencies
       run: poetry install --no-interaction
     - name: Run pytest check
-      run: poetry run pytest -vv --cov="app" .
+      run: poetry run pytest -vv --cov='app' --cov-fail-under=90 .
       env:
         APP_HOST: "0.0.0.0"
         APP_DB_HOST: localhost

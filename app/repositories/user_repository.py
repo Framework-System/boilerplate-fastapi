@@ -38,7 +38,6 @@ class UserRepository:
         full_name: str,
         email: str,
         is_superuser: bool,
-        password: str,
     ) -> UserModel:
         """
         Update single user to session.
@@ -47,14 +46,12 @@ class UserRepository:
         :param full_name: full_name of a user.
         :param email: email of a user.
         :param is_superuser: is_superuser of a user.
-        :param password: password of a user.
         :return: user object.
         """
         user = await UserModel.get(id=user_id)
         user.full_name = full_name
         user.email = email
         user.is_superuser = is_superuser
-        user.hashed_password = get_password_hash(password)
         await user.save()
         return user
 

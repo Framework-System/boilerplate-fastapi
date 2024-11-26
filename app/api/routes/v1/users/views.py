@@ -1,9 +1,10 @@
 from typing import Any, List
 
 from fastapi import APIRouter, HTTPException
+from fastapi import status as http_status
 from fastapi.param_functions import Depends
 
-from app.api.routes.v1.users.dtos import UserDTO, UserInputDTO
+from app.api.routes.v1.users.dtos import UserCreateInputDTO, UserDTO, UserUpdateInputDTO
 from app.domains.models.user_model import UserModel
 from app.middlewares.auth.deps import CurrentUser
 from app.services.user_service import UserService
@@ -14,7 +15,7 @@ router = APIRouter()
 
 @router.post("/", response_model=UserDTO, status_code=201)
 async def create_user(
-    dto: UserInputDTO,
+    dto: UserCreateInputDTO,
     service: UserService = Depends(),
 ) -> UserModel:
     """
@@ -55,7 +56,7 @@ async def list_users(
 async def update_user(
     current_user: CurrentUser,
     user_id: str,
-    dto: UserInputDTO,
+    dto: UserUpdateInputDTO,
     service: UserService = Depends(),
 ) -> UserModel:
     """
@@ -71,7 +72,6 @@ async def update_user(
         user_id=user_id,
         email=dto.email,
         full_name=dto.full_name,
-        password=dto.password,
         is_superuser=dto.is_superuser,
     )
 
@@ -105,7 +105,10 @@ async def list_users_emails(
     :raises HTTPException: If the user doesn't have enough privileges.
     """
     if not current_user.is_superuser:
-        raise HTTPException(status_code=403, detail="Not enough privileges")
+        raise HTTPException(
+            status_code=http_status.HTTP_403_FORBIDDEN,
+            detail="Not enough privileges",
+        )
 
     return await service.list_users_emails(
         limit=limit,

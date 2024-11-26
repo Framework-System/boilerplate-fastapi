@@ -23,10 +23,18 @@ class UserDTO(BaseModel):
         from_attributes = True
 
 
-class UserInputDTO(BaseModel):
+class UserCreateInputDTO(BaseModel):
     """DTO for creating new user model."""
 
     email: str
     full_name: str
     password: str
+    is_superuser: bool
+
+
+class UserUpdateInputDTO(BaseModel):
+    """DTO for updating existing user model."""
+
+    full_name: str
+    email: str
     is_superuser: bool
