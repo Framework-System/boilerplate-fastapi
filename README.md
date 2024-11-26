@@ -62,8 +62,8 @@ app
 ├── repositories  # Package contains different classes to interact with models.
 ├── services  # Package contains the business logical classes.
 ├── tests  # Package contains Tests for project.
+    └── conftest.py  # Fixtures for all tests.
 ├── __main__.py  # Startup script. Starts uvicorn.
-├── conftest.py  # Fixtures for all tests.
 ├── logging.py  # Logger configurations.
 ├── settings.py  # Main configuration settings for project.
 ```
